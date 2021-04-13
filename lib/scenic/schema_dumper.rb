@@ -9,6 +9,10 @@ module Scenic
     end
 
     def views(stream)
+      # When using mutltiple database it tries to write views to schema.rb when running db:schema:dump
+      # We use views on reporting database which uses reporting_schema.rb
+      return if File.basename(stream) == "schema.rb"
+
       if dumpable_views_in_database.any?
         stream.puts
       end
